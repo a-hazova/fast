@@ -1,33 +1,39 @@
-from sqlalchemy import Column, ForeignKey, Integer, String, Text
-from sqlalchemy.orm import relationship, RelationshipProperty
-from sqlalchemy.ext.asyncio import AsyncAttrs
+from datetime import datetime
+from typing import List
+from sqlalchemy import TIMESTAMP, Column, ForeignKey, Integer, Table, func
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from .base import Base
+from app.core.database import Base
 
+tag_post_table = Table(
+    'tag_post',
+    Base.metadata,
+    Column('tag_id', Integer, ForeignKey('tag.id', ondelete="CASCADE"), primary_key=True),
+    Column('post_id', Integer, ForeignKey('post.id', ondelete="CASCADE"), primary_key=True)
 
+)
 class Post(Base):
-    __tablename__ = 'post'
+    # author_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    # author: Mapped['User'] = relationship(back_populates = "posts")
+    title: Mapped[str]
+    content: Mapped[str]
+    created_at: Mapped[datetime] = mapped_column(TIMESTAMP(timezone=True), server_default=func.now())
+    tags: Mapped[List['Tag']] = relationship(secondary=tag_post_table, lazy='joined', innerjoin=True)
+    image: Mapped[str] = mapped_column(nullable=True)
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    title = Column(String, nullable=False)
-    content = Column(Text, nullable=False)
-    # tags = Column(String, ForeignKey('tag.name'), nullable=False)
-    # author: RelationshipProperty = relationship("Author", backref = "posts")
+    def __repr__(self):
+        return f'<Post {self.id}: {self.title}>'
+    
+# class User(Base):
+#     name: Mapped[str] = mapped_column(nullable=False)
+#     email: Mapped[str] = mapped_column(nullable=False)
+#     posts: Mapped[List['Post']] = relationship(back_populates = "author", cascade="all, delete-orphans")
 
-class Tag(Base, AsyncAttrs):
-    __tablename__ = 'tag'
+#     def __repr__(self):
+#         return f'<Author {self.id}: {self.name}>'
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String, nullable=False)
+class Tag(Base):
+    name: Mapped[str] = mapped_column(nullable=False)
 
-class PostTag(Base):
-    __tablename__ = 'posttag'
-
-    post_id = Column(
-        Integer,
-        ForeignKey('post.id', ondelete='CASCADE'), primary_key=True
-    )
-    category_id = Column(
-        Integer,
-        ForeignKey('tag.id', ondelete='CASCADE'), primary_key=True
-    )    
+    def __repr__(self):
+        return f'<Tag {self.id}: {self.name}>'

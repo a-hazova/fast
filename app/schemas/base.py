@@ -1,7 +1,6 @@
 from typing import Optional, Type
 from pydantic import BaseModel
 
-from app.models.base import Base
 
 class BaseInDB(BaseModel):
     # base schema for every schema that stored in DB.
@@ -17,5 +16,5 @@ class BaseInDB(BaseModel):
         
         return self.Config.orm_model(**dict(self))
 
-class BaseUpdate(BaseInDB):
+class BaseUpdateInDB(BaseInDB):
     id: int

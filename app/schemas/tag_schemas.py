@@ -1,20 +1,11 @@
-from pydantic import BaseModel
-
-from app.models.model import Tag
-from app.schemas.base import BaseInDB
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class TagCreate(BaseModel):
-    name: str
+    name: str = Field(min_length=1, max_length=127)
+
+    model_config = ConfigDict(from_attributes=True)
 
 class TagRead(TagCreate):
     id: int
-    
-    class Config:
-        orm_mode = True
-    
-class TagInDB(BaseInDB, TagCreate):
-    
-    class Config(BaseInDB.Config):
-        orm_model = Tag
 
