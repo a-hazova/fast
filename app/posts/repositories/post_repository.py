@@ -3,8 +3,10 @@ from fastapi import HTTPException
 from sqlalchemy import delete
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-from app.models.model import Post, Tag
-from app.schemas.post_schemas import PostRead, PostCreate
+
+from app.posts import Post
+from app.posts.schemas import PostRead, PostCreate
+from app.tags import Tag
 
 
 class PostRepository:

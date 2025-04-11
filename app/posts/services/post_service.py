@@ -1,9 +1,8 @@
 from typing import List
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.schemas.post_schemas import PostRead, PostCreate
-from app.repositories.post_repository import PostRepository
-
+from app.posts import PostRepository
+from app.posts.schemas import PostRead, PostCreate
 
 class PostService:
     def __init__(self, repository: PostRepository):

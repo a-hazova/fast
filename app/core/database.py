@@ -1,6 +1,4 @@
 from collections.abc import AsyncGenerator
-from contextlib import asynccontextmanager
-
 from sqlalchemy import exc
 from sqlalchemy.orm import Mapped, mapped_column, DeclarativeBase, declared_attr
 from sqlalchemy.ext.asyncio import AsyncAttrs, AsyncSession, create_async_engine, async_sessionmaker

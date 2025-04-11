@@ -2,8 +2,7 @@ from datetime import datetime
 from typing import List
 from pydantic import BaseModel, ConfigDict, Field, field_serializer
 
-from app.schemas.tag_schemas import TagCreate
-
+from app.tags.schemas import TagCreate
 
 class PostCreate(BaseModel):
     title: str = Field(min_length=1, max_length=127)
@@ -12,7 +11,6 @@ class PostCreate(BaseModel):
     tags: List[str]
 
     model_config = ConfigDict(from_attributes=True)
-    
     
 
 class PostRead(PostCreate):

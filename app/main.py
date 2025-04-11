@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.routers import router
+from app.core import router
 
 app = FastAPI(
     title="Post Service API"

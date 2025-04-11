@@ -3,8 +3,9 @@ from fastapi import HTTPException
 from sqlalchemy import delete
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-from app.models.model import Tag
-from app.schemas.tag_schemas import TagRead, TagCreate
+
+from app.tags.schemas import TagRead, TagCreate
+from app.tags import Tag
 
 
 class TagRepository:

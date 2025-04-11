@@ -1,9 +1,8 @@
 from typing import List
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.schemas.tag_schemas import TagRead, TagCreate
-from app.repositories.tag_repository import TagRepository
-
+from app.tags.schemas import TagCreate, TagRead
+from app.tags import  TagRepository
 
 class TagService:
     def __init__(self, repository: TagRepository):
