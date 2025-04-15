@@ -368,3 +368,35 @@ DETAIL:  Key (id)=(7) is still referenced from table "tag_post".
 2025-03-07 15:00:05,806 - ERROR - Instance '<Tag at 0x104927770>' is not persistent within this Session
 2025-03-07 15:05:29,939 - ERROR - Instance '<Tag at 0x107e7b770>' is not persistent within this Session
 2025-03-07 15:05:38,848 - ERROR - Instance '<Tag at 0x1064f7770>' is not persistent within this Session
+2025-04-14 13:11:18,603 - ERROR - (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.UniqueViolationError'>: duplicate key value violates unique constraint "user_username_key"
+DETAIL:  Key (username)=(Anton) already exists.
+[SQL: INSERT INTO "user" (username, email, password) VALUES ($1::VARCHAR, $2::VARCHAR, $3::VARCHAR) RETURNING "user".id]
+[parameters: ('Anton', 'Anton@example.com', 'Anton123')]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2025-04-14 13:11:42,716 - ERROR - (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.UniqueViolationError'>: duplicate key value violates unique constraint "user_username_key"
+DETAIL:  Key (username)=(Anton) already exists.
+[SQL: INSERT INTO "user" (username, email, password) VALUES ($1::VARCHAR, $2::VARCHAR, $3::VARCHAR) RETURNING "user".id]
+[parameters: ('Anton', 'Anton@example.com', 'Anton123')]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2025-04-14 13:11:46,477 - ERROR - (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.UniqueViolationError'>: duplicate key value violates unique constraint "user_username_key"
+DETAIL:  Key (username)=(Anton) already exists.
+[SQL: INSERT INTO "user" (username, email, password) VALUES ($1::VARCHAR, $2::VARCHAR, $3::VARCHAR) RETURNING "user".id]
+[parameters: ('Anton', 'Anton@example.com', 'Anton123')]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2025-04-14 17:56:56,437 - ERROR - (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.UniqueViolationError'>: duplicate key value violates unique constraint "user_username_key"
+DETAIL:  Key (username)=(Egor) already exists.
+[SQL: INSERT INTO "user" (username, email, password) VALUES ($1::VARCHAR, $2::VARCHAR, $3::VARCHAR) RETURNING "user".id]
+[parameters: ('Egor', 'Egor@example.com', '$2b$12$mSkc4DqBkL2lPWwpeKUqduYIUc/PYnUN22qArqh4zTaEV/h8BMzfe')]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2025-04-15 10:31:03,175 - ERROR - (sqlalchemy.dialects.postgresql.asyncpg.ProgrammingError) <class 'asyncpg.exceptions.UndefinedColumnError'>: column post.author_id does not exist
+[SQL: SELECT post.author_id, post.title, post.content, post.created_at, post.image, post.id, tag_1.name, tag_1.id AS id_1 
+FROM post JOIN tag_post AS tag_post_1 ON post.id = tag_post_1.post_id JOIN tag AS tag_1 ON tag_1.id = tag_post_1.tag_id]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2025-04-15 10:32:27,689 - ERROR - (sqlalchemy.dialects.postgresql.asyncpg.ProgrammingError) <class 'asyncpg.exceptions.UndefinedColumnError'>: column post.author_id does not exist
+[SQL: SELECT post.author_id, post.title, post.content, post.created_at, post.image, post.id, tag_1.name, tag_1.id AS id_1 
+FROM post JOIN tag_post AS tag_post_1 ON post.id = tag_post_1.post_id JOIN tag AS tag_1 ON tag_1.id = tag_post_1.tag_id]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2025-04-15 10:32:58,993 - ERROR - (sqlalchemy.dialects.postgresql.asyncpg.ProgrammingError) <class 'asyncpg.exceptions.UndefinedColumnError'>: column post.author_id does not exist
+[SQL: SELECT post.author_id, post.title, post.content, post.created_at, post.image, post.id, tag_1.name, tag_1.id AS id_1 
+FROM post JOIN tag_post AS tag_post_1 ON post.id = tag_post_1.post_id JOIN tag AS tag_1 ON tag_1.id = tag_post_1.tag_id]
+(Background on this error at: https://sqlalche.me/e/20/f405)

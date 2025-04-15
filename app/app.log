@@ -1,0 +1,4 @@
+2025-04-14 13:06:49,846 - ERROR - (sqlalchemy.dialects.postgresql.asyncpg.ProgrammingError) <class 'asyncpg.exceptions.UndefinedTableError'>: relation "user" does not exist
+[SQL: INSERT INTO "user" (username, email, password) VALUES ($1::VARCHAR, $2::VARCHAR, $3::VARCHAR) RETURNING "user".id]
+[parameters: ('Anton', 'Anton@example.com', 'Anton123')]
+(Background on this error at: https://sqlalche.me/e/20/f405)
