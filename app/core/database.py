@@ -8,7 +8,7 @@ from app.settings import settings
 
 DATABASE_URL = settings.get_db_url()
 
-engine = create_async_engine(DATABASE_URL, echo=True)
+engine = create_async_engine(DATABASE_URL)
 async_session_maker = async_sessionmaker(bind=engine, expire_on_commit=False)
 
 class Base(AsyncAttrs, DeclarativeBase):

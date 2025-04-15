@@ -23,9 +23,10 @@ class Tag(Base):
 class User(Base):
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
     username: Mapped[str] = mapped_column(String(50), unique=True)
+    image: Mapped[str] = mapped_column(nullable=True)
     email: Mapped[str]
     password: Mapped[str] = mapped_column(String(255))
-    posts: Mapped[List["Post"]] = relationship(back_populates="author")
+    posts: Mapped[List["Post"]] = relationship(back_populates="author", lazy="selectin")
 
     def __repr__(self):
         return f'<User {self.username}, Email: {self.email}>'

@@ -400,3 +400,29 @@ FROM post JOIN tag_post AS tag_post_1 ON post.id = tag_post_1.post_id JOIN tag A
 [SQL: SELECT post.author_id, post.title, post.content, post.created_at, post.image, post.id, tag_1.name, tag_1.id AS id_1 
 FROM post JOIN tag_post AS tag_post_1 ON post.id = tag_post_1.post_id JOIN tag AS tag_1 ON tag_1.id = tag_post_1.tag_id]
 (Background on this error at: https://sqlalche.me/e/20/f405)
+2025-04-15 15:02:38,301 - ERROR - (sqlalchemy.dialects.postgresql.asyncpg.ProgrammingError) <class 'asyncpg.exceptions.UndefinedColumnError'>: column user.image does not exist
+[SQL: SELECT "user".id, "user".username, "user".image, "user".email, "user".password 
+FROM "user" 
+WHERE "user".username = $1::VARCHAR]
+[parameters: ('new_user',)]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2025-04-15 15:04:53,806 - ERROR - (sqlalchemy.dialects.postgresql.asyncpg.ProgrammingError) <class 'asyncpg.exceptions.UndefinedColumnError'>: column user.image does not exist
+[SQL: SELECT "user".id, "user".username, "user".image, "user".email, "user".password 
+FROM "user" 
+WHERE "user".username = $1::VARCHAR]
+[parameters: ('new_user',)]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2025-04-15 15:05:01,300 - ERROR - (sqlalchemy.dialects.postgresql.asyncpg.ProgrammingError) <class 'asyncpg.exceptions.UndefinedColumnError'>: column user.image does not exist
+[SQL: SELECT "user".id, "user".username, "user".image, "user".email, "user".password 
+FROM "user" 
+WHERE "user".username = $1::VARCHAR]
+[parameters: ('new_user',)]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2025-04-15 15:05:21,280 - ERROR - (sqlalchemy.dialects.postgresql.asyncpg.ProgrammingError) <class 'asyncpg.exceptions.UndefinedColumnError'>: column "image" of relation "user" does not exist
+[SQL: INSERT INTO "user" (username, image, email, password) VALUES ($1::VARCHAR, $2::VARCHAR, $3::VARCHAR, $4::VARCHAR) RETURNING "user".id]
+[parameters: ('Olga', None, 'Olga@mail.com', '$2b$12$NgwQlsTis8OF6vndHQv4kOq7u8wMFBTZdHZHeThbjhG2ZagRpCg/u')]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2025-04-15 17:48:58,756 - ERROR - (sqlalchemy.dialects.postgresql.asyncpg.Error) <class 'asyncpg.exceptions.DataError'>: invalid input for query argument $1: UploadFile(filename='images-2.jpeg', siz... (expected str, got UploadFile)
+[SQL: UPDATE "user" SET image=$1::VARCHAR WHERE "user".id = $2::INTEGER]
+[parameters: (UploadFile(filename='images-2.jpeg', size=7792, headers=Headers({'content-disposition': 'form-data; name="image"; filename="images-2.jpeg"', 'content-type': 'image/jpeg'})), 15)]
+(Background on this error at: https://sqlalche.me/e/20/dbapi)

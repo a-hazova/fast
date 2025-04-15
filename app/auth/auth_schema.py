@@ -1,3 +1,5 @@
+from typing import Optional
+from fastapi import File, UploadFile
 from pydantic import BaseModel, ConfigDict, EmailStr
 
 class BaseAuth(BaseModel):
@@ -8,11 +10,11 @@ class AuthLogin(BaseAuth):
 
 class AuthSignUp(BaseAuth):
     email: EmailStr
+    password: str
     model_config = ConfigDict(from_attributes=True)
 
 class AuthUser(BaseAuth):
     id: int
-
 
 class TokenData(BaseModel):
     access_token: str

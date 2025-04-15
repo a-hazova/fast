@@ -1,6 +1,11 @@
+import os
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from app.core import router
 from fastapi.middleware.cors import CORSMiddleware
+from .settings import settings
+
+MEDIA_DIR = settings.get_media_dir()
 
 app = FastAPI(
     title="Post Service API",
@@ -19,5 +24,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.mount("/media", StaticFiles(directory=MEDIA_DIR), name="media")
 
 app.include_router(router)
