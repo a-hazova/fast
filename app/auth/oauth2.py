@@ -16,7 +16,7 @@ SECRET_KEY = settings.SECRET_KEY
 ALGORITHM =  settings.ALGORITHM
 ACCESS_TOKEN_EXPIRE_MINUTES = settings.ACCESS_TOKEN_EXPIRE_MINUTES
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 
 repository: UserRepository = UserRepository
 
@@ -45,9 +45,9 @@ def verify_access_token(token: str, credentials_exception):
 
 async def get_current_user(token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session))-> AuthUser:
         
-        credentials_exception = HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
+    credentials_exception = HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                                               detail="Could not validate credentials", headers={"WWW-Authenticare": "Bearer"})
-        token = verify_access_token(token, credentials_exception)
-        user =  await repository.get_user(user_id=token.id, session=session)
-        return user
+    token = verify_access_token(token, credentials_exception)
+    user =  await repository.get_user(user_id=token.id, session=session)
+    return user
 

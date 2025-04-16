@@ -1,51 +1,38 @@
-from typing import List
-from fastapi import HTTPException
-from sqlalchemy import delete
+from typing import List, Union
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy.orm import selectinload
 
 from app.core.models import Post
-from app.core.schemas import PostCreate, PostWithAuthor
+from app.core.schemas import PostWithAuthor
 from app.core.models import Tag
+from app.utils.get_column import get_column
 
 
 class PostRepository:
 
     @staticmethod
-    async def get_post(session: AsyncSession, post_id: int):
-        query = select(Post).options(selectinload(Post.author)).where(Post.id == post_id)
+    async def get_post(session: AsyncSession, identifier: str, value: Union[int, str]):
+        column = get_column(Post, identifier)
+        query = select(Post).options(selectinload(Post.author)).where(column == value)
         result = await session.execute(query)
-        return result.scalars().first()
+        return result.scalar_one_or_none()
 
     @staticmethod
     async def get_posts(session: AsyncSession) -> List[PostWithAuthor]:
         query = select(Post).options(selectinload(Post.author))
         results = await session.execute(query)
-        all = results.unique().scalars().all()
-        return all
+        return results.unique().scalars().all()
 
     @staticmethod
-    async def create_post(session: AsyncSession, post_in: PostCreate, user_id: int):
-        tags = post_in['tags']
-        tag_query = select(Tag).where(Tag.name.in_(tags))
-        result = await session.execute(tag_query)
-        existing_tags = result.scalars().all()
-        existing_tags_names = [tag.name for tag in existing_tags]
-        for tag_name in tags:
-            if tag_name not in existing_tags_names:
-                raise HTTPException(
-                    status_code=404, detail=f"Tag '{tag_name}' not found")
-            
-        post_in['tags'] = existing_tags
-        post_in_db = Post(**post_in, author_id=user_id)
+    async def create_post(session: AsyncSession, post: dict, user_id: int, tags: list[Tag]) -> Post:
+        post_in_db = Post(**post, author_id=user_id, tags=tags)
         session.add(post_in_db)
         await session.commit()
         await session.refresh(post_in_db)
         return post_in_db
 
     @staticmethod
-    async def delete_post(session: AsyncSession, post_id: int):
-        query = delete(Post).where(Post.id == post_id)
-        result = await session.execute(query)
+    async def delete_post(session: AsyncSession, post: Post):
+        await session.delete(post)
         await session.commit()

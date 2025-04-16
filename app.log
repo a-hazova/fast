@@ -426,3 +426,4 @@ WHERE "user".username = $1::VARCHAR]
 [SQL: UPDATE "user" SET image=$1::VARCHAR WHERE "user".id = $2::INTEGER]
 [parameters: (UploadFile(filename='images-2.jpeg', size=7792, headers=Headers({'content-disposition': 'form-data; name="image"; filename="images-2.jpeg"', 'content-type': 'image/jpeg'})), 15)]
 (Background on this error at: https://sqlalche.me/e/20/dbapi)
+2025-04-16 17:29:36,969 - ERROR - Class 'app.core.schemas.TagCreate' is not mapped

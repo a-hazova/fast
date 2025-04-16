@@ -37,7 +37,7 @@ class PostBase(BaseModel):
     title: str = Field(min_length=1, max_length=127)
     content: str = Field(min_length=1)
     created_at: Optional[datetime] = None
-    tags: List[str]
+    tags: str
 
     model_config = ConfigDict(from_attributes=True)
     

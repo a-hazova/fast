@@ -1,49 +1,41 @@
-from typing import List
-from fastapi import HTTPException
-from sqlalchemy import delete
+from typing import List, Union
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 
 from app.core.models import Tag
-from app.core.schemas import TagCreate, TagRead
+from app.utils.get_column import get_column
 
 
 class TagRepository:
 
     @staticmethod
-    async def get_tag(session: AsyncSession, tag_id: int):
-        query = select(Tag).where(Tag.id == tag_id)
+    async def get_tag(session: AsyncSession, identifier: str, value: Union[int, str]) -> Tag | None:
+        column = get_column(Tag, identifier)
+        query = select(Tag).where(column == value)
         result = await session.execute(query)
-        if tag:= result.scalar_one_or_none():
-            return tag
-        raise HTTPException(
-            status_code=404, detail=f"Tag with id '{tag_id}' not found")
+        return result.scalar_one_or_none()
+    
+    @staticmethod
+    async def get_bulk_tags(session: AsyncSession, identifier: str, values: list[Union[str, int]]) -> list[Tag]:
+        column = get_column(Tag, identifier)
+        query = select(Tag).where(column.in_(values))
+        result = await session.execute(query)
+        return result.scalars().all()
 
     @staticmethod
-    async def get_tags(session: AsyncSession) -> List[TagRead]:
+    async def get_tags(session: AsyncSession) -> List[Tag]:
         query = select(Tag)
         results = await session.execute(query)
         return results.scalars().all()
 
     @staticmethod
-    async def create_tag(session: AsyncSession, tag_in: TagCreate):
-        query = select(Tag).where(Tag.name == tag_in.name)
-        result = await session.execute(query)
-        if result.scalar_one_or_none():
-            raise HTTPException(
-                status_code=400, detail=f"Tag '{tag_in.name}' already exists")
-        tag_in_db = Tag(name=tag_in.name)
-        session.add(tag_in_db)
+    async def create_tag(session: AsyncSession, tag: Tag):
+        session.add(tag)
         await session.commit()
-        await session.refresh(tag_in_db)
-        return tag_in_db
+        await session.refresh(tag)
+        return tag
 
     @staticmethod
-    async def delete_tag(session: AsyncSession, tag_id: int):
-        query = select(Tag).where(Tag.id == tag_id)
-        result = await session.execute(query)
-        if tag := result.scalar_one_or_none():
-            await session.delete(tag)
-            await session.commit()
-        raise HTTPException(
-            status_code=404, detail=f"Tag with id '{tag_id}' not found")
+    async def delete_tag(session: AsyncSession, tag: Tag):
+        await session.delete(tag)
+        await session.commit()
