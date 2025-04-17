@@ -64,6 +64,7 @@ class PostWithAuthor(PostRead):
 class BaseUser(BaseModel):
     username: str
     email: EmailStr
+    invalidate_before: Optional[int] = None
 
     model_config = ConfigDict(from_attributes=True)  
 
@@ -86,5 +87,3 @@ class UserWithPosts(UserRead):
 
 
 PostWithAuthor.model_rebuild()
-
- 

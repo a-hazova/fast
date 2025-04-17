@@ -2,6 +2,7 @@ from collections.abc import AsyncGenerator
 from sqlalchemy import exc
 from sqlalchemy.orm import Mapped, mapped_column, DeclarativeBase, declared_attr
 from sqlalchemy.ext.asyncio import AsyncAttrs, AsyncSession, create_async_engine, async_sessionmaker
+import valkey.asyncio as valkey
 
 from app.logger import logger
 from app.settings import settings
@@ -30,3 +31,8 @@ async def get_session() -> AsyncGenerator[AsyncSession, None]:
         finally:
             await session.close()
 
+
+valkey_client = valkey.Valkey(host='localhost', port=6379, db=0)
+
+async def get_valkey():
+    return valkey_client

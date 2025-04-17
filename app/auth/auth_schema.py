@@ -15,6 +15,7 @@ class AuthSignUp(BaseAuth):
 
 class AuthUser(BaseAuth):
     id: int
+    invalidate_before: int
 
 class TokenData(BaseModel):
     access_token: str
@@ -22,3 +23,4 @@ class TokenData(BaseModel):
 
 class Token(BaseModel):
     id: int
+    

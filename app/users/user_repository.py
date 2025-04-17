@@ -33,7 +33,7 @@ class UserRepository:
     
     @staticmethod
     async def update_user(session: AsyncSession, user: User, update_data: dict) -> UserMe:
-        query = update(User).values(**update_data)
+        query = update(User).where(User.id == user.id).values(**update_data).returning(User)
         result = await session.execute(query)
         await session.commit()  
         await session.refresh(user) 

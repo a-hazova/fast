@@ -1,6 +1,7 @@
 from datetime import datetime
+import time
 from typing import List
-from sqlalchemy import TIMESTAMP, Column, ForeignKey, Integer, String, Table, text
+from sqlalchemy import TIMESTAMP, BigInteger, Column, ForeignKey, Integer, String, Table, text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .database import Base
@@ -26,6 +27,7 @@ class User(Base):
     image: Mapped[str] = mapped_column(nullable=True)
     email: Mapped[str]
     password: Mapped[str] = mapped_column(String(255))
+    invalidate_before: Mapped[int] = mapped_column(BigInteger, server_default=text("EXTRACT(EPOCH FROM now())::bigint"))
     posts: Mapped[List["Post"]] = relationship(back_populates="author", lazy="selectin")
 
     def __repr__(self):
@@ -42,3 +44,4 @@ class Post(Base):
 
     def __repr__(self):
         return f'<Post {self.id}: {self.title}>'
+    

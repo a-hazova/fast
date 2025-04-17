@@ -34,7 +34,11 @@ async def get_post(post_id: int, db_session:AsyncSession = Depends(get_session))
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
 
 @post_router.post('', status_code=status.HTTP_201_CREATED, description='Create a new post')
-async def create_post(post_in: Annotated[PostCreateForm, Form(media_type="multipart/form-data")], db_session: AsyncSession = Depends(get_session), current_user: AuthUser = Depends(oauth2.get_current_user)) -> PostWithAuthor:
+async def create_post(
+    post_in: Annotated[PostCreateForm, Form(media_type="multipart/form-data")], 
+    db_session: AsyncSession = Depends(get_session), 
+    current_user: AuthUser = Depends(oauth2.get_current_user)
+    ) -> PostWithAuthor:
     try: 
         return await post_service.create_post(db_session, post_in, current_user)
     except NotFoundError as e: 

@@ -33,7 +33,7 @@ class PostService:
         image = post_dict['image']
         if image:
             path = save_image(image.file, current_user.id, image.filename)
-        post_dict['image'] = path
+            post_dict['image'] = path
 
         tag_names = post_dict.pop('tags').split(',')
         existing_tags = await self.tag_repository.get_bulk_tags(session=session, identifier="name", values=tag_names)

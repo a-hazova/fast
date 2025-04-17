@@ -35,3 +35,4 @@ async def get_user(user_id: int, db_session: AsyncSession = Depends(get_session)
 @user_router.patch('/{user_id}', description='Update_profile')
 async def update_user(user_id: int, user_in: Annotated[UserUpdateForm, Form(media_type="multipart/form-data")], db_session: AsyncSession = Depends(get_session), current_user: AuthUser = Depends(oauth2.get_current_user)) -> UserMe:
     return await user_service.update_user(user_id=user_id, current_user=current_user, session=db_session, update_data=user_in)
+

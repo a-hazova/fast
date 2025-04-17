@@ -39,3 +39,4 @@ class UserService:
         user = await self.repository.get_user(session=session, identifier='id', value=user_id)
         updated_user = await self.repository.update_user(session, user, data)
         return updated_user
+    

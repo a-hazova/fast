@@ -12,6 +12,8 @@ class Settings(BaseSettings):
     SECRET_KEY: str
     ALGORITHM: str
     ACCESS_TOKEN_EXPIRE_MINUTES: str
+    REFRESH_TOKEN_EXPIRE_MINUTES: str
+    REFRESH_TOKEN_SECRET_KEY: str
 
     BASE_URL: str
     BASE_DIR: str = os.path.dirname(os.path.abspath(__file__))

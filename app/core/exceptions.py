@@ -18,3 +18,9 @@ class NotFoundError(Exception):
         if not self.value and not self.identifier:
             error_message = f'{self.entity} not found'
         super().__init__(error_message)
+    
+class CredentialsError(Exception):
+    def __init__(self):
+        error_message = f'Could not validate credentials'
+        super().__init__(error_message)
+        
